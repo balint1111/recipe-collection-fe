@@ -1,8 +1,8 @@
 FROM node:alpine
 
-WORKDIR /usr/src/app
-
-COPY src /usr/src/app
+WORKDIR /recipe-collection-fe
+# Copy everything
+COPY . ./
 
 RUN npm install -g @angular/cli
 
