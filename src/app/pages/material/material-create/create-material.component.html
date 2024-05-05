@@ -1,0 +1,45 @@
+<form nz-form [formGroup]="materialForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-table>
+      <tbody>
+      <tr>
+        <td style="width: 18%">
+          <nz-form-label nzFor="materialName" nzRequired>Név</nz-form-label>
+        </td>
+        <td>
+          <nz-form-control nzErrorTip="Adj meg egy nevet!">
+            <input nz-input formControlName="name" id="materialName"/>
+          </nz-form-control>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 18%">
+          <nz-form-label nzFor="allergens" nzRequired>Allergének</nz-form-label>
+        </td>
+        <td>
+          <nz-form-control nzErrorTip="Válassz egy vagy több allergént!">
+            <nz-select nzMode="multiple" id="allergens" formControlName="allergenIds">
+              <nz-option *ngFor="let data of allergenList" nzValue="{{data.id}}" nzLabel="{{data.name}}"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 18%">
+          <nz-form-label nzFor="materialCategories" nzRequired>Alapanyag kategória</nz-form-label>
+        </td>
+        <td>
+          <nz-form-control nzErrorTip="Válassz egy alapanyag kategóriát!">
+            <nz-select nzMode="default" id="materialCategories" formControlName="materialCategoryId">
+              <nz-option *ngFor="let data of materialCategoryList" nzValue="{{data.id}}" nzLabel="{{data.name}}"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </nz-form-item>
+
+  <button nz-button nzType="primary" [disabled]="!materialForm.valid">Mentés</button>
+</form>

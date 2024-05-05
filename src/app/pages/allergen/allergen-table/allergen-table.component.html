@@ -1,0 +1,27 @@
+<button nz-button nzType="primary" (click)="navigateToCreate()" >Létrehozás</button>
+<nz-table #basicTable [nzData]="list" [nzBordered]="true" [nzLoading]="isLoading" [nzFrontPagination]="false"
+          [nzScroll]="{ y: 'calc(100vh - 360px)' }">
+  <thead>
+  <tr>
+    <th style="width: 50%; ">Id</th>
+    <th style="width: 40%;">Név</th>
+    <th style="width: 10%;min-width: 100px; text-align: center">Műveletek</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{ data.id }}</td>
+    <td>{{ data.name }}</td>
+    <td style="text-align: center">
+      <button class="delete-button" nz-icon [nzType]="'delete'" (click)="deleteAllergen(data.id)" [nzTheme]="'fill'"
+              style="font-size: 16px; color: indianred; background: white"></button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+               [nzShowSizeChanger]="true"
+               [nzPageSizeOptions]="[1, 5, 10, 20, 30, 50]"
+               (nzPageIndexChange)="loadPage($event, pageSize)"
+               (nzPageSizeChange)="loadPage(1, $event)"
+></nz-pagination>

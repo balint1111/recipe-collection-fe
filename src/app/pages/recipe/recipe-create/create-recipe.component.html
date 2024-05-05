@@ -1,0 +1,150 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()" style="max-height: 100%; /* Adjust based on your requirement */
+  overflow-y: auto;">
+  <nz-form-item>
+    <nz-table>
+      <tbody>
+      <tr>
+        <td>
+          <nz-table>
+            <tr>
+              <td style="width: 18%">
+                <nz-form-label nzFor="recipeName" nzRequired>Név</nz-form-label>
+              </td>
+              <td>
+                <nz-form-control nzErrorTip="Adj meg egy nevet!">
+                <input nz-input formControlName="name" id="recipeName"/>
+              </nz-form-control></td>
+            </tr>
+          </nz-table>
+        </td>
+        <td>
+          <nz-table>
+            <tr>
+              <td style="width: 18%">
+                <nz-form-label nzFor="recipeCode" nzRequired>Kód</nz-form-label>
+              </td>
+              <td>
+                <nz-form-control nzErrorTip="Adj meg egy kódot!">
+                  <input nz-input formControlName="code" id="recipeCode"/>
+                </nz-form-control>
+            </tr>
+          </nz-table>
+        </td>
+      </tr>
+      <tr style="column-span: 2">
+        <td [attr.colspan]="2">
+          <nz-table>
+            <tr>
+              <td style="width: 9%">
+                <nz-form-label nzFor="recipeDescription" nzRequired>Leírás</nz-form-label>
+              </td>
+              <td >
+                <nz-form-control nzErrorTip="Adj meg egy leírást!">
+                  <textarea style="width: calc(100% - 2px); margin-left: 2px" nz-input formControlName="description" id="recipeDescription"></textarea>
+                </nz-form-control>
+            </tr>
+          </nz-table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <nz-table>
+            <tr>
+              <td style="width: 18%">
+                <nz-form-label nzFor="preparationDuration" nzRequired>Előkészítési idő</nz-form-label>
+              </td>
+              <td>
+                <nz-form-control nzErrorTip="Adj meg egy előkészítési időt!">
+                  <input nz-input type="number" formControlName="preparationDuration" id="preparationDuration"/>
+                </nz-form-control>
+            </tr>
+          </nz-table>
+
+        </td>
+        <td>
+          <nz-table>
+            <tr>
+              <td style="width: 18%">
+                <nz-form-label nzFor="cookingDuration" nzRequired>Elkészítési idő</nz-form-label>
+              </td>
+              <td>
+                <nz-form-control nzErrorTip="Adj meg egy elkészítési időt!">
+                  <input nz-input type="number" formControlName="cookingDuration" id="cookingDuration"/>
+                </nz-form-control>
+            </tr>
+          </nz-table>
+        </td>
+      </tr>
+
+      </tbody>
+    </nz-table>
+    <div formArrayName="ingredientGroups">
+      <h2>Hozzávaló csoportok:</h2>
+      <nz-card *ngFor="let ingredientG of ingredientGroups.controls; let i=index">
+        <form [formGroup]="ingredientG">
+          <nz-form-label nzFor="ig-{{ i }}">Hozzávaló csoport neve</nz-form-label>
+          <nz-form-control nzErrorTip="Adj meg egy nevet!">
+            <input nz-input [formControl]="ingredientG.controls['name']" id="ingredientGroupName"/>
+          </nz-form-control>
+          <nz-card formArrayName="ingredients">
+            <h3>Hozzávalók:</h3>
+            <nz-table>
+              <thead>
+              <tr>
+                <th>Hozzávaló neve</th>
+                <th>Mértékegység</th>
+                <th>Mennyiség</th>
+                <th style="text-align: center">Törlés</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let ingredient of ingredientsOfIngredientGroup(i).controls; let k=index">
+                <td>
+                  <nz-form-control>
+                    <nz-select nzMode="default" id="materials" [formControl]="ingredient.controls['materialId']">
+                      <nz-option *ngFor="let data of materialList" [nzValue]=data.id [nzLabel]=data.name ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </td>
+                <td>
+                  <nz-form-control>
+                    <input nz-input id="ingredient-{{ k }}" type="text" [formControl]="ingredient.controls['unit']">
+                  </nz-form-control>
+                </td>
+                <td>
+                  <nz-form-control>
+                    <input nz-input id="ingredient-{{ k }}" type="number" [formControl]="ingredient.controls['quantity']">
+                  </nz-form-control>
+                </td>
+                <td style="text-align: center">
+                  <button class="delete-button" nz-icon [nzType]="'delete'" (click)="deleteIngredient(i, k)" [nzTheme]="'fill'"
+                          style="font-size: 16px; color: indianred; background: white"></button>
+                </td>
+              </tr>
+              </tbody>
+            </nz-table>
+            <nz-form-control style="width: 100%; text-align: center">
+              <button style="width: 40%; margin-top: 12px;" nz-button nzType="default" (click)="addIngredient(i)">+ Hozzávaló hozzáadása
+              </button>
+            </nz-form-control>
+          </nz-card>
+        </form>
+        <nz-form-control style="width: 100%; text-align: center">
+          <button style="width: 30%; margin-top: 12px; background: indianred" nz-button nzType="default" (click)="deleteIngredientGroup(i)">
+                  Hozzávaló csoport törlése
+          </button>
+        </nz-form-control>
+
+      </nz-card>
+      <nz-form-control style="width: 100%; text-align: center">
+        <button style="width: 40%; margin-top: 12px;" nz-button nzType="default" (click)="addIngredientGroup()">+ Hozzávaló csoport
+          hozzáadása
+        </button>
+      </nz-form-control>
+
+    </div>
+
+  </nz-form-item>
+
+  <button nz-button nzType="primary" [disabled]="!form.valid">Mentés</button>
+</form>

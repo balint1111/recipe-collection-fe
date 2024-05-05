@@ -1,0 +1,25 @@
+<div class="login-wrapper">
+  <nz-card>
+    <div class="form-wrapper">
+      <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Írd be a felfasználóneved!">
+            <input nz-input formControlName="userName" placeholder="Felhasználónév">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-space ></nz-space>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Írd be a jelszavadat!">
+            <input nz-input type="password" formControlName="password" placeholder="Jelszó">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-space ></nz-space>
+        <nz-form-item>
+          <div style="width: 100%; text-align: center">
+            <button nz-button nzType="primary" [disabled]="!loginForm.valid">Bejelentkezés</button>
+          </div>
+        </nz-form-item>
+      </form>
+    </div>
+  </nz-card>
+</div>

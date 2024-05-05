@@ -1,0 +1,46 @@
+
+nz-table {
+  width: 100%;
+  margin: 20px auto;
+  table-layout: auto;
+}
+
+nz-table thead tr th {
+  background-color: #f0f2f5;
+  text-align: left;
+  padding: 16px;
+  border-bottom: 2px solid #e8e8e8;
+}
+
+nz-table tbody tr td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+nz-pagination {
+  column-span: 2;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+nz-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+.nz-select {
+  min-width: 80px;
+}
+
+org-admin-members {
+  .ant-table-pagination {
+    justify-content: center !important;
+  }
+}
+
+.delete-button {
+  cursor: pointer;
+}
+
+
