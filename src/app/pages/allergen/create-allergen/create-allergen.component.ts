@@ -6,20 +6,22 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {RequestService} from "../../../service/request.service";
 import {environment} from "../../../environment";
 import {Router} from "@angular/router";
+import {NzTableComponent} from "ng-zorro-antd/table";
 
 @Component({
   selector: 'app-create-allergen',
   templateUrl: './create-allergen.component.html',
   standalone: true,
-  imports: [
-    NzFormItemComponent,
-    NzFormDirective,
-    ReactiveFormsModule,
-    NzFormLabelComponent,
-    NzFormControlComponent,
-    NzInputDirective,
-    NzButtonComponent
-  ],
+    imports: [
+        NzFormItemComponent,
+        NzFormDirective,
+        ReactiveFormsModule,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzInputDirective,
+        NzButtonComponent,
+        NzTableComponent
+    ],
   styleUrls: ['./create-allergen.component.scss']
 })
 export class CreateAllergenComponent {

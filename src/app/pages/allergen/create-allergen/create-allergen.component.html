@@ -1,9 +1,19 @@
 <form nz-form [formGroup]="allergenForm" (ngSubmit)="submitForm()">
   <nz-form-item>
-    <nz-form-label nzFor="allergenName" nzRequired>Név</nz-form-label>
-    <nz-form-control nzErrorTip="Please enter allergen name!">
-      <input nz-input formControlName="name" id="allergenName" />
-    </nz-form-control>
+    <nz-table>
+      <tbody>
+      <tr>
+        <td style="width: 18%">
+          <nz-form-label nzFor="allergenName" nzRequired>Név</nz-form-label>
+        </td>
+        <td>
+          <nz-form-control nzErrorTip="Please enter allergen name!">
+            <input nz-input formControlName="name" id="allergenName"/>
+          </nz-form-control>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
   </nz-form-item>
 
   <button nz-button nzType="primary" [disabled]="!allergenForm.valid">Mentés</button>
