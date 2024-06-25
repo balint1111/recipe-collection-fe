@@ -55,7 +55,7 @@ export class CreateMaterialComponent implements OnInit{
   ) {
     this.materialForm = this.fb.group({
       name: new FormControl('', Validators.required),
-      allergenIds: new FormControl<number[]>( [], Validators.required),
+      allergenIds: new FormControl<number[]>( [],),
       materialCategoryId: new FormControl<number|null>( null, Validators.required),
     });
   }

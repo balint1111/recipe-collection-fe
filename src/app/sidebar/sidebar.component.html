@@ -1,16 +1,20 @@
+<ng-template #pageTitle>
+  <div class="sidebar-logo">
+    <a href="/">
+      <!--        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">-->
+      <h1>Receptgyüjtemény</h1>
+    </a>
+  </div>
+</ng-template>
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar"
+  <nz-sider *ngIf="isLoggedIn$ | async"
+            class="menu-sidebar"
             nzCollapsible
             nzWidth="256px"
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <!--        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">-->
-        <h1>Receptgyüjtemény</h1>
-      </a>
-    </div>
+    <ng-container *ngTemplateOutlet="pageTitle"/>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
 
       <li nz-menu-item nzMatchRouter>
@@ -29,19 +33,27 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <!--      <div class="logo">App Logo</div>-->
-      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+      <div *ngIf="!(isLoggedIn$ | async)" style="float: left"> <ng-container *ngTemplateOutlet="pageTitle"/></div>
+      <span *ngIf="isLoggedIn$ | async" class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <span class="trigger"
                   nz-icon
                   [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
                   style=" color: white;"
             ></span>
       </span>
-      <ul nz-menu nzTheme="dark" nzMode="horizontal" style="float: right;">
-        <li nz-menu-item>
+      <div style="float: right; padding-right: 10px">
+        <div *ngIf="isLoggedIn$ | async; else loggedOut">
           <button nz-button nzType="primary" (click)="logout()">Kijelentkezés</button>
-        </li>
-      </ul>
+        </div>
+        <ng-template #loggedOut>
+          <button nz-button nzType="primary" (click)="login()">Bejelentkezés</button>
+        </ng-template>
+      </div>
+      <div *ngIf="!(isLoggedIn$ | async)" style="float: right; padding-right: 10px">
+        <div>
+          <button nz-button nzType="primary" (click)="registration()">Regisztráció</button>
+        </div>
+      </div>
     </nz-header>
     <nz-content style="padding: 0 50px;">
       <div class="inner-content">

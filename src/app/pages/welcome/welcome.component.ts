@@ -12,9 +12,7 @@ export class WelcomeComponent implements OnInit {
   constructor(private requestService: RequestService) { }
 
   ngOnInit() {
-    console.log('asd')
     this.requestService.get('http://localhost:8080')
-    console.log('asd')
   }
 
 }

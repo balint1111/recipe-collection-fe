@@ -12,6 +12,28 @@
           </nz-form-control>
         </td>
       </tr>
+      <tr>
+        <td style="width: 18%">
+          <nz-form-label nzFor="allergenImg" nzRequired>Ikon</nz-form-label>
+        </td>
+        <td>
+          <nz-upload
+            style="display: inline-block"
+            id="allergenImg"
+            [nzBeforeUpload]="beforeUpload"
+            nzListType="picture-card"
+            [nzMultiple]="true">
+<!--            [(nzFileList)]="fileList"-->
+<!--            [nzShowButton]="fileList.length < 2">-->
+            <div>
+              <i nz-icon nzType="plus"></i>
+              Upload
+            </div>
+          </nz-upload>
+          <img style="height: 100px; width: 100px; display: inline-block" alt="" [src]="allergenForm.value.imgBase64 ? allergenForm.value.imgBase64 : fallbackImg "/>
+
+        </td>
+      </tr>
       </tbody>
     </nz-table>
   </nz-form-item>

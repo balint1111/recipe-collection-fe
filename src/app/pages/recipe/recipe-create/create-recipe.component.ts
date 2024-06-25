@@ -12,10 +12,10 @@ import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabe
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {RequestService} from "../../../service/request.service";
-import {environment} from "../../../environment";
+import {environment, fallbackImg} from "../../../environment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Material} from "../../material/material-table/material-table.component";
 import {NzTableComponent, NzThMeasureDirective} from "ng-zorro-antd/table";
 import {NzCardComponent} from "ng-zorro-antd/card";
@@ -23,6 +23,8 @@ import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {Recipe} from "../recipe-table/recipe-table.component";
 import {BehaviorSubject, map, Observable, Subject, Subscription, takeUntil} from "rxjs";
+import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
+import {NzModalService} from "ng-zorro-antd/modal";
 
 
 interface Ingredient {
@@ -58,7 +60,10 @@ interface IngredientGroup {
     NzCardComponent,
     NzColDirective,
     NzIconDirective,
-    FormsModule
+    FormsModule,
+    NzUploadComponent,
+    AsyncPipe,
+    NgIf
   ],
   styleUrls: ['./create-recipe.component.scss']
 })
@@ -66,13 +71,14 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private backendUrl: string = 'Recipe'
   private url: string = 'recipe'
-  private id = new BehaviorSubject<number | null>(null)
+  protected id = new BehaviorSubject<number | null>(null)
 
   protected materialList: Material[] = [];
   protected form: FormGroup<{
     id: FormControl<number | null>,
     code: FormControl<string | null>
     name: FormControl<string | null>
+    imgBase64: FormControl<string | null>
     description: FormControl<string | null>
     preparationDuration: FormControl<number | null>
     cookingDuration: FormControl<number | null>
@@ -84,11 +90,13 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     private requestService: RequestService,
     private router: Router,
     private route: ActivatedRoute,
+    private modal: NzModalService,
   ) {
     this.form = this.fb.group({
       id: this.fb.control<number | null>(null),
       code: ['', Validators.required],
       name: ['', Validators.required],
+      imgBase64: new FormControl<string | null>(null),
       description: ['', Validators.required],
       preparationDuration: [0, Validators.required],
       cookingDuration: [0, Validators.required],
@@ -151,15 +159,39 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params =>
       this.id.next(params['id'])
     )
-    this.id.pipe(takeUntil(this.destroy$)).subscribe(id =>
+    this.id.pipe(takeUntil(this.destroy$)).subscribe(id => {
         id == null || this.requestService.get<Recipe>(
           `${environment.apiUrl}/${this.backendUrl}/GetById/${id}`
         ).pipe(takeUntil(this.destroy$)).subscribe(response => {
             this.setValues(response.content);
           }
         )
+        if (id == null) {
+          this.addIngredientGroup()
+          this.addIngredient(0)
+        }
+      }
     )
   }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    let extension = file.name.split('.').pop()
+    console.log(extension)
+    console.log(file.type)
+    console.log(file.size)
+    if (extension != undefined && ["png", "jpg"].indexOf(extension) > -1
+      && file.type != undefined && ["image/png", "image/jpeg"].indexOf(file.type) > -1
+      && (file.size !== undefined && file.size < 200000)) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file as any);
+      reader.onload = () => {
+        this.form.patchValue({
+          imgBase64: reader.result?.toString(),
+        });
+      };
+    }
+    return false; // Prevent automatic upload
+  };
 
   submitForm(): void {
     if (this.form.valid) {
@@ -186,10 +218,27 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     }
   }
 
+  showSubmitConfirm(): void {
+    if (this.id.value == null) {
+      this.submitForm()
+    } else {
+      this.modal.confirm({
+        nzTitle: 'Biztos vagy benne, hogy szerkeszteni akarod ezt a receptet?',
+        nzContent: 'Ezt a műveletet nem lehet visszavonni',
+        nzCancelText: "Mégse",
+        nzOkText: "OK",
+        nzWidth: 600,
+        nzCentered: true,
+        nzOnOk: () => this.submitForm()
+      });
+    }
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   protected readonly FormControl = FormControl;
+  protected readonly fallbackImg = fallbackImg;
 }

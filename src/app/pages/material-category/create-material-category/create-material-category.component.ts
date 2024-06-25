@@ -41,7 +41,6 @@ export class CreateMaterialCategoryComponent {
 
   submitForm(): void {
     if (this.allergenForm.valid) {
-      console.log(this.allergenForm.value)
       this.requestService.post(`${environment.apiUrl}/${this.backendUrl}/Create`,
         {
           name: this.allergenForm.value.name

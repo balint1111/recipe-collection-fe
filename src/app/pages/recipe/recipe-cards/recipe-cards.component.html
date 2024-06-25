@@ -1,0 +1,68 @@
+<nz-table style="width:100%; height: 5%;" nzTableLayout="fixed">
+  <tr>
+    <td style="width: 15%">
+      Keresés:
+    </td>
+    <td style="width: 70%">
+      <input style=" width: 100%; display: block" nz-input #searchInput/>
+    </td>
+    <td style="width: 15%; text-align: right" *ngIf="isLoggedIn$ | async">
+      Kedvencek:
+      <nz-switch #justFavoritesToggle [(ngModel)]="justFavorites" (click)="clickSwitch()"></nz-switch>
+    </td>
+  </tr>
+</nz-table>
+<div style="width:100%; height: 95%; display: flex">
+
+  <cdk-virtual-scroll-viewport
+    id="cdk"
+    itemSize="100"
+    class="demo-infinite-container"
+    minBufferPx="900"
+    maxBufferPx="900"
+  >
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="8" *cdkVirtualFor="let item of ds">
+        <nz-card style="height: 300px">
+          <nz-card-meta [nzTitle]="item.name"></nz-card-meta>
+          <nz-table style="width:100%; height: 200px;" nzTableLayout="fixed">
+            <tr style="height: 160px">
+              <td style="width: 70%;">
+                <ul style="margin-bottom: 0"
+                  *ngFor="let ingredient of item.ingredientGroups | ingredientGMapToMaterials">
+                  <li>{{ingredient.name}}</li>
+                </ul>
+              </td>
+              <td style="width: 30%;">
+                <img style="max-width: 100%; max-height: 160px; display: inline-block" [alt]="item.name"
+                     [title]="item.name"
+                     [src]="item.imgBase64 ? item.imgBase64 : fallbackImg"/>
+              </td>
+            </tr>
+            <tr style="height: 80px">
+              <td style="width: 80%; vertical-align: bottom;">
+                <div style="margin-top: 16px;" nz-row [nzGutter]="16">
+                  <div nz-col [nzSpan]="6" *ngFor="let allergen of item.ingredientGroups | ingredientGMapToAllergens">
+                    <img style="height: 30px; width: 30px; display: inline-block" [alt]="allergen.name"
+                         [title]="allergen.name"
+                         [src]="allergen.imgBase64"/>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 20%; vertical-align: bottom; text-align: center">
+                <span *ngIf="isLoggedIn$ | async" style="font-size: 24px; color: #bfbd39;" nz-icon nzType="star"
+                      [nzTheme]="item.isFavorite ? 'fill' : 'outline'"
+                      (click)="toggleFavorite(item, $event)"
+                ></span>
+              </td>
+            </tr>
+          </nz-table>
+
+
+        </nz-card>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>
+
+

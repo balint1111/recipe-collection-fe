@@ -44,3 +44,9 @@ org-admin-members {
 }
 
 
+#basicTable ::ng-deep .ant-table-column-sorters::after {
+  width: 0;
+  height: 0;
+}
+
+

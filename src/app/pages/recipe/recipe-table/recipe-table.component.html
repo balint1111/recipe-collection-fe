@@ -1,12 +1,34 @@
-<button nz-button nzType="primary" (click)="navigateToCreate()" >Létrehozás</button>
-<nz-table #basicTable [nzData]="list" [nzBordered]="true" [nzLoading]="isLoading" [nzFrontPagination]="false"
+<nz-table style="width:100%; height: 5%;" nzTableLayout="fixed">
+  <tr>
+    <td style="width: 15%">
+      Keresés:
+    </td>
+    <td style="width: 70%">
+      <input style=" width: 100%; display: block" nz-input #searchInput/>
+    </td>
+
+    <td style="text-align: right">
+      <button nz-button nzType="primary" (click)="navigateToCreate()" >Létrehozás</button>
+    </td>
+  </tr>
+</nz-table>
+<nz-table id="basicTable" #basicTable [nzData]="list" [nzBordered]="true" [nzLoading]="isLoading" [nzFrontPagination]="false"
           [nzScroll]="{ y: 'calc(100vh - 360px)' }">
   <thead>
   <tr>
-    <th style="width: 20%; ">Id</th>
-    <th style="width: 20%;">Kód</th>
-    <th style="width: 20%;">Név</th>
-    <th style="width: 20%;">Leírás</th>
+    <th
+      *ngFor="let column of listOfColumns trackBy: trackByName"
+      [style]=column.style
+      [nzSortOrder]=column.sortOrder
+      [nzSortDirections]=column.sortDirections
+      (nzSortOrderChange)="sortChange(column.dbName, $event, column)"
+    >
+      {{ column.name }}
+    </th>
+<!--    <th style="width: 20%; ">Id</th>-->
+<!--    <th style="width: 20%;">Kód</th>-->
+<!--    <th style="width: 20%;">Név</th>-->
+<!--    <th style="width: 20%;">Leírás</th>-->
     <th style="width: 10%;min-width: 100px; text-align: center">Műveletek</th>
   </tr>
   </thead>
@@ -17,7 +39,7 @@
     <td>{{ data.name }}</td>
     <td>{{ data.description }}</td>
     <td style="text-align: center">
-      <button class="delete-button" nz-icon [nzType]="'delete'" (click)="delete(data.id, $event)" [nzTheme]="'fill'"
+      <button class="delete-button" nz-icon [nzType]="'delete'" (click)="showDeleteConfirm(data.id, $event)" [nzTheme]="'fill'"
               style="font-size: 16px; color: indianred; background: white"></button>
     </td>
   </tr>

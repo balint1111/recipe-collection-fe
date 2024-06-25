@@ -11,7 +11,9 @@ import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from "ng-zorro
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {NzColDirective, NzRowDirective} from "ng-zorro-antd/grid";
 import {NzButtonComponent} from "ng-zorro-antd/button";
-import {AuthService} from "../service/auth.service";
+import {AuthService, logout} from "../service/auth.service";
+import {Observable} from "rxjs";
+import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-sidebar',
@@ -30,26 +32,39 @@ import {AuthService} from "../service/auth.service";
     NzFooterComponent,
     NzColDirective,
     NzButtonComponent,
-    NzRowDirective
+    NzRowDirective,
+    AsyncPipe,
+    NgIf,
+    NgTemplateOutlet
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit{
   isCollapsed = false;
+  isLoggedIn$?: Observable<boolean | undefined>;
+
+
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+  }
 
   constructor(
     private router: Router,
     private authService: AuthService,
-  ) { }
-
-  logout() {
-    this.authService.logout()
+  ) {
   }
 
-  ngOnInit(): void {
-    if (this.authService.getToken() == null) {
-      this.router.navigate(['/login']);
-    }
+  logout() {
+    logout()
+    this.router.navigate(['/login'])
+  }
+
+  registration() {
+    this.router.navigate(['/registration'])
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 }

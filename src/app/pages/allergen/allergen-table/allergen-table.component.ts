@@ -10,7 +10,8 @@ import {NzIconDirective, NzIconModule} from "ng-zorro-antd/icon";
 
 export interface Allergen {
   id: number
-  name: string;
+  name: string
+  imgBase64: string;
 }
 
 @Component({
@@ -47,7 +48,6 @@ export class AllergenTableComponent implements OnInit {
   }
 
   navigateToCreate() {
-    console.log('asdsa')
     this.router.navigate(['/allergens/create']);
   }
 
