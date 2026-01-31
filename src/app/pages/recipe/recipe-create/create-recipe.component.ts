@@ -176,12 +176,11 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     let extension = file.name.split('.').pop()
-    console.log(extension)
-    console.log(file.type)
-    console.log(file.size)
-    if (extension != undefined && ["png", "jpg"].indexOf(extension) > -1
-      && file.type != undefined && ["image/png", "image/jpeg"].indexOf(file.type) > -1
-      && (file.size !== undefined && file.size < 200000)) {
+    if (
+      (extension != undefined && ["png", "jpg"].indexOf(extension) > -1
+        || file.type != undefined && ["image/png", "image/jpeg"].indexOf(file.type) > -1)
+      && (file.size !== undefined && file.size < 5000000)
+    ) {
       const reader = new FileReader();
       reader.readAsDataURL(file as any);
       reader.onload = () => {

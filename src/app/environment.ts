@@ -3,8 +3,9 @@ import {Ingredient, IngredientGroup} from "./pages/recipe/recipe-table/recipe-ta
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:9090/api',
   // apiUrl: 'https://localhost:5001/api',
-  apiUrl: 'https://192.168.0.136:5001/api',
+  // apiUrl: 'https://192.168.0.136:5001/api',
   // apiUrl: 'http://34.118.32.163:5001/api',
 };
 
