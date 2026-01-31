@@ -52,6 +52,10 @@ export class MaterialCategoryTableComponent implements OnInit {
     this.router.navigate([`/${this.url}/create`]);
   }
 
+  navigateToUpdate(id: number) {
+    this.router.navigate([`/${this.url}/update/${id}`]);
+  }
+
   loadPage(page: number, pageSize: number) {
     this.isLoading = true
     this.pageIndex = page
