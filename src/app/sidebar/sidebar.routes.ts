@@ -28,6 +28,7 @@ export const SIDEBAR_ROUTES: Routes = [
   { path: 'material-category/create', component: CreateMaterialCategoryComponent, canActivate: [authGuard()]  },
   { path: 'material', component: MaterialTableComponent, canActivate: [authGuard()]  },
   { path: 'material/create', component: CreateMaterialComponent, canActivate: [authGuard()]  },
+  { path: 'material/update/:id', component: CreateMaterialComponent, canActivate: [authGuard()]  },
   { path: 'recipe', component: RecipeTableComponent, canActivate: [authGuard()]  },
   { path: 'recipe/create', component: CreateRecipeComponent, canActivate: [authGuard()]  },
   { path: 'recipe/update/:id', component: CreateRecipeComponent, canActivate: [authGuard()]  },

@@ -7,7 +7,7 @@
     <th style="width: 20%;">Név</th>
     <th style="width: 20%;">Kategória</th>
     <th style="width: 20%;">Allergének</th>
-    <th style="width: 10%;min-width: 100px; text-align: center">Műveletek</th>
+    <th style="width: 10%;min-width: 120px; text-align: center">Műveletek</th>
   </tr>
   </thead>
   <tbody>
@@ -17,6 +17,8 @@
     <td>{{ data.materialCategory.name }}</td>
     <td>{{ mapAllergens(data.allergens)}}</td>
     <td style="text-align: center">
+      <button class="edit-button" nz-icon [nzType]="'edit'" (click)="navigateToUpdate(data.id)" [nzTheme]="'fill'"
+              style="font-size: 16px; color: #1677ff; background: white"></button>
       <button class="delete-button" nz-icon [nzType]="'delete'" (click)="deleteAllergen(data.id)" [nzTheme]="'fill'"
               style="font-size: 16px; color: indianred; background: white"></button>
     </td>
