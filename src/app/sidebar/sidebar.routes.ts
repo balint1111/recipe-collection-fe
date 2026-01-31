@@ -26,6 +26,7 @@ export const SIDEBAR_ROUTES: Routes = [
   { path: 'allergens/update/:id', component: CreateAllergenComponent, canActivate: [authGuard()]  },
   { path: 'material-category', component: MaterialCategoryTableComponent, canActivate: [authGuard()]  },
   { path: 'material-category/create', component: CreateMaterialCategoryComponent, canActivate: [authGuard()]  },
+  { path: 'material-category/update/:id', component: CreateMaterialCategoryComponent, canActivate: [authGuard()]  },
   { path: 'material', component: MaterialTableComponent, canActivate: [authGuard()]  },
   { path: 'material/create', component: CreateMaterialComponent, canActivate: [authGuard()]  },
   { path: 'material/update/:id', component: CreateMaterialComponent, canActivate: [authGuard()]  },
