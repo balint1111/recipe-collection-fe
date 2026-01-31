@@ -23,6 +23,7 @@ export const SIDEBAR_ROUTES: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'allergens', component: AllergenTableComponent, canActivate: [authGuard()]  },
   { path: 'allergens/create', component: CreateAllergenComponent, canActivate: [authGuard()]  },
+  { path: 'allergens/update/:id', component: CreateAllergenComponent, canActivate: [authGuard()]  },
   { path: 'material-category', component: MaterialCategoryTableComponent, canActivate: [authGuard()]  },
   { path: 'material-category/create', component: CreateMaterialCategoryComponent, canActivate: [authGuard()]  },
   { path: 'material', component: MaterialTableComponent, canActivate: [authGuard()]  },

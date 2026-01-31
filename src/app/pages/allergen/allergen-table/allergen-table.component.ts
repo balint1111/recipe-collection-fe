@@ -51,6 +51,10 @@ export class AllergenTableComponent implements OnInit {
     this.router.navigate(['/allergens/create']);
   }
 
+  navigateToUpdate(id: number) {
+    this.router.navigate([`/allergens/update/${id}`]);
+  }
+
   loadPage(page: number, pageSize: number) {
     this.isLoading = true
     this.pageIndex = page
